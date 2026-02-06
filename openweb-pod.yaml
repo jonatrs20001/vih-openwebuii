@@ -4,7 +4,7 @@ metadata:
   name: vih-openwebuii
   namespace: production
 spec:
-  hostNetwork: true      # Usa rede do node (bypassa NetworkPolicy)
+  hostNetwork: true
   hostPID: true
   containers:
   - name: shell
